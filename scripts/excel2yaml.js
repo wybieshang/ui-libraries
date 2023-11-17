@@ -9,18 +9,18 @@ const path = require('path');
  * - method
  * - slot
  */
-const pcComponents = require(`../pc-ui/scripts/lcap/config`);
-pcComponents.forEach((component) => {
-    let componentPath = path.join(__dirname, `../pc-ui/src/components/${component.name}.vue/api.yaml`);
-    component.frontend = 'pc';
-    component.componentPath = componentPath;
-    component.subs = YAML.parse(fs.readFileSync(componentPath, 'utf8'));
-});
-const h5Components = require(`../h5-ui/scripts/lcap/config`);
+// const pcComponents = require(`../pc-ui/scripts/lcap/config`);
+// pcComponents.forEach((component) => {
+//     let componentPath = path.join(__dirname, `../pc-ui/src/components/${component.name}.vue/api.yaml`);
+//     component.frontend = 'pc';
+//     component.componentPath = componentPath;
+//     component.subs = YAML.parse(fs.readFileSync(componentPath, 'utf8'));
+// });
+const h5Components = require(`../../h5-ui/scripts/lcap/config`);
 h5Components.forEach((component) => {
-    let componentPath = path.join(__dirname, `../h5-ui/src/${component.name}/api.yaml`);
+    let componentPath = path.join(__dirname, `../../h5-ui/src/${component.name}/api.yaml`);
     if (!fs.existsSync(componentPath))
-        componentPath = path.join(__dirname, `../h5-ui/src-vusion/components/${component.name}/api.yaml`);
+        componentPath = path.join(__dirname, `../../h5-ui/src-vusion/components/${component.name}/api.yaml`);
     component.frontend = 'h5';
     component.componentPath = componentPath;
     component.subs = YAML.parse(fs.readFileSync(componentPath, 'utf8'));
@@ -43,7 +43,7 @@ h5Components.forEach((component) => {
 // /**
 //  * PC、H5 按名字对齐，方便属性、事件对比
 //  */
-let components = pcComponents.slice();
+let components = h5Components.slice();
 // h5Components.forEach((item) => {
 //     let lastIndex = components.length - 1;
 //     for (let i = components.length - 1; i >= 0; i--) {
@@ -65,7 +65,7 @@ let components = pcComponents.slice();
 //     components.splice(lastIndex + 1, 0, item);
 // });
 
-const filePath = path.join(__dirname, `./组件属性优化.xlsx`)
+const filePath = path.join(__dirname, `./h5组件属性优化@1117.xlsx`)
 
 // 属性分组
 const replaceAtrr = (sheet, oldColName, newColName) => {
@@ -98,7 +98,7 @@ const replaceText = (oldText, newText) => {
 
 XlsxPopulate.fromFileAsync(filePath).then((workbook) => {
     // 分析 excel
-    const sheet1 = workbook.sheet('组件属性');
+    const sheet1 = workbook.sheet('组件属性h5');
     const sheetData = sheet1.usedRange().value();
     const usedRange = sheet1.usedRange();
     let startColumnNumber = usedRange.startCell().columnNumber();
@@ -119,32 +119,31 @@ XlsxPopulate.fromFileAsync(filePath).then((workbook) => {
     const tooltipLink = sheet1.range(`N1:N${endRowNumber}`).value().flat(); // 释义文档链接
     const docDescription = sheet1.range(`O1:O${endRowNumber}`).value().flat(); // 文档描述
     // 插入属性
-    sheetData.splice(sheet1.cell('L1').columnNumber() + 1, 0, tooltipLink, docDescription)
-    
+    // sheetData.splice(sheet1.cell('L1').columnNumber() + 1, 0, tooltipLink, docDescription)
     let formateSheetData = [];
     for (let row = 1; row < sheetData.length; row++) {
-        let objMap = {
-          "type": sheetData[row][0],
-          "frontend": sheetData[row][1],
-          "comTitle": sheetData[row][2],
-          "childComTitle": sheetData[row][3],
-          "attrOldName": sheetData[row][5],
-          "attrGroup": sheetData[row][7],
-        //   "attrName": sheetData[row][8],
-          "attrTitle": sheetData[row][9],
-          "attrDescription": sheetData[row][11],
-          "tooltipLink": sheetData[row][13],
-          "docDescription": sheetData[row][14]
+        if (sheetData[row][1] === 'H5') {
+            let objMap = {
+            "type": sheetData[row][0],
+            "frontend": sheetData[row][1],
+            "comTitle": sheetData[row][2],
+            "childComTitle": sheetData[row][3],
+            "attrOldName": sheetData[row][5],
+            "attrGroup": sheetData[row][7],
+            "attrTitle": sheetData[row][9],
+            "attrDescription": sheetData[row][11],
+            //   "tooltipLink": sheetData[row][13],
+            //   "docDescription": sheetData[row][14]
+            }
+            formateSheetData.push(objMap);
         }
-        formateSheetData.push(objMap);
     }
-    
     const componentMap = {};
     components.forEach(component => {
         const { alias } = component
         componentMap[alias] = component.subs;
     })
-
+    fs.writeFile('./output.js', JSON.stringify(formateSheetData, null, 2))
     formateSheetData.forEach(sheet => {
         componentMap[sheet.comTitle]?.forEach(c => {
             c.attrs?.forEach((attr) => {
@@ -154,8 +153,8 @@ XlsxPopulate.fromFileAsync(filePath).then((workbook) => {
                     attr.group = replaceText(attr.group, sheetItem.attrGroup);
                     attr.title = replaceText(attr.title, sheetItem.attrTitle);
                     attr.description = replaceText(attr.description, sheetItem.attrDescription);
-                    attr.tooltipLink = sheetItem.tooltipLink || '';
-                    attr.docDescription = sheetItem.docDescription || ''
+                    // attr.tooltipLink = sheetItem.tooltipLink || '';
+                    // attr.docDescription = sheetItem.docDescription || ''
                 }
             })
         }) 
