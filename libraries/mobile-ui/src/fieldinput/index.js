@@ -84,7 +84,16 @@ export default createComponent({
   computed: {
     shownumbertype() {
       // 定制键盘样式
-      return this.keytheme === 'custom';
+      if (this.keytheme === 'custom') {
+        return true;
+      }
+
+      // 整数、随机整数、小数、身份证需使用定制键盘
+      if (['integer', 'rndinteger', 'point', 'card'].includes(this.type)) {
+        return true;
+      }
+
+      return false;
     },
     extraKey() {
       switch (this.type) {

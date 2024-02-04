@@ -1,0 +1,74 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renders demo correctly 1`] = `<div class="van-fieldinput__newwrap"><input type="text" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>`;
+
+exports[`renders demo correctly 2`] = `
+<div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="text" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="password" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="integer" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="rndinteger" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="point" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="card" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="text" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap van-fieldinput__newwrap--clearwrap"><input type="text" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom"></div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="text" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom van-fieldinput__control--hide">
+      <div class="van-password-input">
+        <ul vusion-click-enabled="true" class="van-password-input__security">
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="password" role="fieldinput" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom van-fieldinput__control--hide">
+      <div class="van-password-input">
+        <ul vusion-click-enabled="true" class="van-password-input__security">
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+          <li class="van-hairline--surround van-password-input__item"><i style="visibility: hidden;"></i></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="van-fieldinput__newwrap"><input type="integer" role="fieldinput" readonly="readonly" placeholder="请输入" vusion-click-enabled="true" class="van-fieldinput__control van-fieldinput__control--custom van-fieldinput__control--hide">
+      <div class="van-password-input">
+        <ul vusion-click-enabled="true" class="van-password-input__security">
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+          <li class="van-hairline--surround van-password-input__item"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;
