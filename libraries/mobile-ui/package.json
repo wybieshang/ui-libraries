@@ -45,6 +45,9 @@
   "license": "LSC",
   "dependencies": {
     "@babel/runtime": "7.x",
+    "@better-scroll/core": "^2.5.1",
+    "@better-scroll/pull-down": "^2.5.1",
+    "@better-scroll/pull-up": "^2.5.1",
     "@popperjs/core": "^2.10.2",
     "@vant/icons": "^1.7.1",
     "@vant/popperjs": "^1.1.0",

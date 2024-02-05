@@ -1,0 +1,29 @@
+.van-list-view-item {
+  position: relative;
+  background: var(--van-list-view-item-unselected-backgroud);
+}
+
+.van-list-view-item[selected] {
+  background: var(--van-list-view-item-selected-backgroud);
+}
+
+/* 为了斑马纹能生效 */
+.van-list-view-item > .van-cell {
+  background: transparent;
+}
+
+.van-list-view-item__icon {
+  position: absolute;
+  z-index: 9;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+}
+
+.van-list-view-item .van-list-view-item__icon {
+  color: var(--van-list-view-item-unselected-icon-color);
+}
+
+.van-list-view-item[selected] .van-list-view-item__icon {
+  color: var(--van-list-view-item-selected-icon-color);
+}
