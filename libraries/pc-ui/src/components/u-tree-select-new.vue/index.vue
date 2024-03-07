@@ -402,7 +402,12 @@ export default {
         },
         handleData() {
             this.currentDataSource = this.normalizeDataSource(this.dataSource || this.data);
+            console.log('----------------------')
+            console.log(this.currentDataSource)
             this.dataSourceNodeList = this.handleDataSourceObj(this.currentDataSource.data, 'dataSource');
+            console.log('======================')
+            console.log(this.dataSourceNodeList)
+
             this.dataSourceObj = { ...this.dataSourceNodeList, ...this.virtualNodeList };
         },
         // 如果有选中值，且没有被查到，且数据可以加载
@@ -462,7 +467,6 @@ export default {
                     }
                 }
             };
-
             if (Array.isArray(dataSource)) {
                 final.data = dataSource;
             } else if (typeof dataSource === 'function') {
