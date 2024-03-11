@@ -1,12 +1,15 @@
 import './styles/theme.css';
 import './styles/base.css';
 import * as utils from 'cloud-ui.vusion/src/utils';
+import MEmitter from 'cloud-ui.vusion/src/components/m-emitter.vue/index';
+import MPubSub from 'cloud-ui.vusion/src/components/m-pub-sub.vue/index';
 // import '../src/style/base.less'; // 下方有对src目录里所有less文件的引用
 
 // import Vue from 'vue';
 // Vue.prototype.$env = Vue.prototype.$env || {};
 // Vue.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
 
+export { MEmitter, MPubSub };
 export { utils };
 export { install } from '@vusion/utils';
 export * from './components';
