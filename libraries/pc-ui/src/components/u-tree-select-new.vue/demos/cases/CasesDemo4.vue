@@ -6,7 +6,7 @@
             <u-tree-select-new :data-source="load" value-field="nonstandardbasicdata.id" text-field="nonstandardbasicdata.name" parent-field="nonstandardbasicdata.parentid" childrenField="list"
                 style="width:300px;height:40px"></u-tree-select-new>
         </u-form-item>
-        <!-- <u-form-item label="树选择器" required rules="required">
+        <u-form-item label="树选择器" required rules="required">
             <u-tree-select-new :data-source="load" value-field="data.id" text-field="data.deptname" parent-field="data.parentid" childrenField="children" :value.sync="selectValue"></u-tree-select-new>
         </u-form-item>
         <u-form-item label="树选择器" required rules="required">
@@ -15,14 +15,11 @@
         </u-form-item>
         <u-form-item>
             <u-button color="primary" @click="onValidate">立即创建</u-button>
-        </u-form-item> -->
+        </u-form-item>
     </u-form>
 </template>
 
 <script>
-
-import demo from './demo.js'
-console.log(demo)
 // 模拟后端请求
 const mockRequest = (data,timeout = 300) => new Promise((resolve,rej) => setTimeout(() => resolve(data),timeout));
 
@@ -56,8 +53,7 @@ export default {
                     }
                 ]
             }
-            console.log('加载。。。')
-            return mockRequest(demo);
+            return mockRequest(test);
         },
         onValidate() {
             this.$refs.form.validate();
