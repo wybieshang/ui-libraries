@@ -29,6 +29,7 @@
     <div :class="$style.list" v-if="showFileList" :list-type="listType">
         <template v-if="listType !== 'card'">
             <div :class="$style.item" v-for="(item, index) in currentValue" :key="index">
+            1
                 <template v-if="item.status !== 'error'">
                     <div :class="$style.textContainer" v-if="listType === 'text' && $slots['file-list']">
                         <span v-for="flag in fileListFlags" :key="flag" :class="$style[flag]">
@@ -49,7 +50,7 @@
             </div>
         </template>
         <template v-else>
-            <div :class="$style.card" v-for="(item, index) in currentValue" :key="index" @click="!multiple && !readonly && select()">
+            <div :class="$style.card" v-for="(item, index) in currentValue" :key="index" :url="item.url" @click="!multiple && !readonly && select()">
                 <div :class="$style.thumb"><img :class="$style.img" :src="getUrl(item)"></div>
                 <div :class="$style.mask" :multiple="multiple || readonly" :show-progress="item.showProgress">
                     <u-linear-progress v-if="item.showProgress" :class="$style.progress" :percent="item.percent"></u-linear-progress>
@@ -78,7 +79,9 @@
         </span>
     </div>
     <u-lightbox :visible.sync="lightboxVisible" :value="currentIndex" animation="fade">
-        <u-lightbox-item v-for="(item, index) in currentValue" :key="index" :value="index" :title="item.name"><img :src="encodeUrl(item.url || item)"></u-lightbox-item>
+        <u-lightbox-item v-for="(item, index) in currentValue" :key="index" :value="index" :title="item.name">
+            <img :src="encodeUrl(item.url || item)">
+        </u-lightbox-item>
     </u-lightbox>
     <cropper
         v-if="openCropper"
@@ -271,6 +274,7 @@ export default {
         },
     },
     mounted() {
+        console.log(111111111111)
         if (!this.$env.VUE_APP_DESIGNER && this.$slots['file-list'] && this.listType === 'text') {
             const fileListVms = this.$slots['file-list'].filter((item) => item.data && item.data.attrs && item.data.attrs.flag);
             fileListVms.forEach((vm) => {
@@ -655,20 +659,20 @@ export default {
             }, this);
         },
         remove(index) {
+            console.log(index)
+            console.log(this.currentValue)
+            
             const item = this.currentValue[index];
-            if (!item)
-                return;
+            if (!item) return;
             this.modalVisible = false;
 
-            if (this.$emitPrevent('before-remove', {
-                oldValue: this.currentValue,
-                item,
-                index,
-            }, this))
+            if (this.$emitPrevent('before-remove', {oldValue: this.currentValue, item, index }, this)) {
                 return;
+            }
 
             this.currentValue.splice(index, 1);
             this.emitInputEvent();
+
             this.$emit('remove', {
                 value: this.currentValue,
                 item,
