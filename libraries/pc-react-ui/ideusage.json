@@ -348,7 +348,7 @@
     {
         "name": "Drawer",
         "ideusage": {
-            "idetype": "modal",
+            "idetype": "drawer",
             "selector": {
               "expression": "this",
               "cssSelector": "div[class='ant-drawer-content']"
@@ -363,7 +363,7 @@
     {
         "name": "Message",
         "ideusage": {
-            "idetype": "modal",
+            "idetype": "messager",
             "selector": {
               "expression": "this",
               "cssSelector": "div[class='ant-drawer-wrapper-body']"
