@@ -4,6 +4,7 @@
     <template v-else-if="currentDataSource">
         <u-tree-view-node-new
             :renderOptimize="renderOptimize"
+            :modelValue="modelValue"
             v-if="dataSource"
             v-for="(node, index) in currentDataSource.data"
             :text="$at2(node, field || textField)"
@@ -12,6 +13,7 @@
             :checked.sync="node.checked"
             :disabled="$at2(node, disabledField)"
             :children-field="childrenField"
+            :value-field="valueField"
             :hidden="filterText ? $at(node, 'hiddenByFilter') : $at(node, hiddenField)"
             :node="node"
             :node-key="`${index}`"
@@ -78,6 +80,7 @@ export default {
         draggable: { type: Boolean, default: false },
         subBackground: { type: Boolean, default: false },
         renderOptimize: { type: Boolean, default: false },
+        modelValue: null,
     },
     data() {
         return {

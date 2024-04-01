@@ -85,6 +85,7 @@
             <!-- 目前只支持单选 -->
             <u-tree-view-new v-if="popperOpened" ref="treeView"
                 :renderOptimize="renderOptimize"
+                :modelValue="actualValue"
                 :if-expanded="ifExpanded"
                 style="border: none; min-width: 100%; display: inline-block"
                 :value="value"

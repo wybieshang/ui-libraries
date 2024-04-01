@@ -66,10 +66,12 @@
                 :level="level + 1"
                 :draggable="subNode.draggable"
                 :renderOptimize="renderOptimize"
+                :modelValue="modelValue"
+                :children-field="childrenField"
+                :value-field="valueField"
             >
                <template #item="item">
-                   <slot name="item" v-bind="item">
-                   </slot>
+                   <slot name="item" v-bind="item"></slot>
                </template >
             </u-tree-view-node-new>
         </template>
@@ -89,6 +91,9 @@
                     :level="level + 1"
                     :draggable="subNode.draggable"
                     :renderOptimize="renderOptimize"
+                    :modelValue="modelValue"
+                    :children-field="childrenField"
+                    :value-field="valueField"
                 >
                     <template #item="item">
                         <slot name="item" v-bind="item">
@@ -106,6 +111,7 @@
 <script>
 import { MNode } from '../m-root.vue';
 import SEmpty from '../s-empty.vue';
+import filter from '../u-table-view.vue/filter.vue';
 
 export default {
     name: 'u-tree-view-node-new',
@@ -122,6 +128,7 @@ export default {
         readonly: { type: Boolean, default: false },
         hidden: { type: Boolean, default: false },
         childrenField: String,
+        valueField: String,
         moreChildrenFields: Array,
         node: Object,
         nodeKey: String,
@@ -133,6 +140,7 @@ export default {
         draggable: { type: Boolean, default: false },
         dragExpanderDelay: { type: Number, default: 1500 },
         renderOptimize: { type: Boolean, default: false },
+        modelValue: null,
     },
     data() {
         return {
@@ -273,9 +281,21 @@ export default {
     },
     created() {
         this.renderSelectedVm();
-    },
 
+        // if(this.renderOptimize) {
+            const nodeValues = this.parseNodeValues([this.node])
+            const modelView = nodeValues.includes(this.modelValue)
+            this.currentExpanded = modelView
+        // }
+    },
     methods: {
+        parseNodeValues(nodes, values = []) {
+            nodes.forEach(node => {
+                values.push(node[this.valueField])
+                node[this.childrenField] && this.parseNodeValues(node[this.childrenField], values)
+            })
+            return values
+        },
         select() {
             if (this.currentDisabled || this.currentReadOnly)
                 return;
@@ -329,15 +349,14 @@ export default {
         toggle(expanded) {
             if (this.currentDisabled && !this.rootVM.checkControlled)
                 return;
-            if (!(this.hasChildren
-                || this.nodeVMs.length
-                || (this.node && !this.$at(this.node, this.rootVM.isLeafField) && this.rootVM.currentDataSource && this.rootVM.currentDataSource.load)))
+            if (!(this.hasChildren || this.nodeVMs.length || (this.node && !this.$at(this.node, this.rootVM.isLeafField) && this.rootVM.currentDataSource && this.rootVM.currentDataSource.load)))
                 return;
 
             const oldExpanded = this.currentExpanded;
 
-            if (expanded === undefined)
+            if (expanded === undefined) {
                 expanded = !this.currentExpanded;
+            }
 
             if (expanded === oldExpanded)
                 return;
@@ -365,12 +384,7 @@ export default {
                     });
                 }
 
-                this.$emit('toggle', {
-                    expanded,
-                    node: this.node,
-                    nodeVM: this,
-                }, this);
-
+                this.$emit('toggle', {expanded, node: this.node, nodeVM: this}, this);
                 this.rootVM.onToggle(this, expanded);
             };
 
