@@ -89,8 +89,8 @@ export default {
       // currentText
       let texts = [];
       this.itemVMs.forEach(it => {
-          if (it?.status == 'true') {
-              texts.push(it.$slots.item?.[0].componentOptions.propsData.text);
+        if (it?.status == 'true') {
+            texts.push(it.text || (it.$slots.default && it.$slots.default.length > 0 ? it.$slots.default[0].text : it.$slots.item?.[0].componentOptions.propsData.text));
           }
       });
       if (texts.length > 0)
