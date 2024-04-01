@@ -111,7 +111,6 @@
 <script>
 import { MNode } from '../m-root.vue';
 import SEmpty from '../s-empty.vue';
-import filter from '../u-table-view.vue/filter.vue';
 
 export default {
     name: 'u-tree-view-node-new',
@@ -282,11 +281,11 @@ export default {
     created() {
         this.renderSelectedVm();
 
-        // if(this.renderOptimize) {
+        if(this.renderOptimize) {
             const nodeValues = this.parseNodeValues([this.node])
             const modelView = nodeValues.includes(this.modelValue)
             this.currentExpanded = modelView
-        // }
+        }
     },
     methods: {
         parseNodeValues(nodes, values = []) {
@@ -354,9 +353,8 @@ export default {
 
             const oldExpanded = this.currentExpanded;
 
-            if (expanded === undefined) {
+            if (expanded === undefined)
                 expanded = !this.currentExpanded;
-            }
 
             if (expanded === oldExpanded)
                 return;
@@ -384,7 +382,12 @@ export default {
                     });
                 }
 
-                this.$emit('toggle', {expanded, node: this.node, nodeVM: this}, this);
+                this.$emit('toggle', {
+                    expanded,
+                    node:this.node,
+                    nodeVM: this
+                }, this);
+
                 this.rootVM.onToggle(this, expanded);
             };
 
