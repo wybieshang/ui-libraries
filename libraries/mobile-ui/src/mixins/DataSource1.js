@@ -6,7 +6,7 @@ import DataSource from '../utils/DataSource';
 export default {
   props: {
     // 数据源
-    dataSource: [Function, Array],
+    dataSource: [DataSource, Function, Object, Array],
     // 初始加载
     initialLoad: { type: Boolean, default: true },
     // 值字段
@@ -27,7 +27,7 @@ export default {
     caseSensitive: { type: Boolean, default: false },
 
     // 排序相关
-    // sorting: Object, // 由组件自己定义 { field: '', order: 'asc' | 'desc', compare: (a, b) => a - b}
+    // sorting: Object, // 由组件自己定义
 
     // 树形组件相关
     // treeDisplay: { type: Boolean, default: false }, // 由组件自己定义
@@ -125,42 +125,6 @@ export default {
     }
   },
   methods: {
-    // 包装fetch函数
-    fetch(params) {
-      if (typeof this.dataSource === 'function') {
-        const result = this.dataSource(params);
-        if (result instanceof Promise) {
-          return result;
-        }
-        return Promise.resolve(result);
-      } else if (Array.isArray(this.dataSource)) {
-        const data = this.getPartialData(this.dataSource, params);
-        return Promise.resolve(data);
-      }
-    },
-    getPartialData(data, params) {
-      const { page, size, sort, order, filterText } = params;
-      let result = data;
-      // 排序
-      const compare = (a, b, sign) => {
-        if (a === b) return 0;
-        return a > b ? sign : -sign;
-      };
-      result = result.sort((a, b) => compare(a[sort], b[sort], order === 'asc' ? 1 : -1));
-      // 过滤
-      const filter = {
-        [this.textField]: {
-          operator: this.matchMethod,
-          value: this.filterText,
-          caseInsensitive: !this.caseSensitive,
-        }
-      };
-      result = result.filter((item) => solveCondition(filter, item));
-      // 分页
-
-    },
-
-
     handleData() {
       this.currentDataSource = this.normalizeDataSource(this.dataSource);
 
@@ -289,52 +253,3 @@ export default {
     },
   },
 };
-
-
-function isOperator(value) {
-  const operators = ['=', '==', 'eq', '!=', 'neq', '<', 'lt', '<=', 'lte', '>', 'gt', '>=', 'gte', 'includes', 'startsWith', 'endsWith'];
-  return typeof value === 'function' || operators.includes(value);
-}
-
-function solveCondition(condition, obj) {
-  if (Array.isArray(condition)) return condition.some((cond) => solveCondition(cond, obj));
-  if (typeof condition === 'object') {
-    return Object.keys(condition).every((key) => {
-      let expression = condition[key];
-      if (expression === undefined) return true;
-      if (typeof expression !== 'object') expression = ['=', expression];
-      if (Array.isArray(expression)) {
-        if (!isOperator(expression[0])) {
-          // 多选项过滤，暂时简单处理
-          const sourceValue = getType(obj) === 'String' ? obj : _get(obj, key);
-          const targetValue = expression;
-          return targetValue.includes(sourceValue);
-        }
-        expression = {
-          operator: expression[0],
-          value: expression[1],
-        };
-      }
-
-      let sourceValue = getType(obj) === 'String' ? obj : _get(obj, key);
-      let targetValue = expression.value;
-      if (expression.caseInsensitive) {
-        sourceValue = typeof sourceValue === 'string' ? sourceValue.toLowerCase() : sourceValue;
-        targetValue = typeof targetValue === 'string' ? targetValue.toLowerCase() : targetValue;
-      }
-
-      if (typeof expression.operator === 'function') return expression.operator(sourceValue, targetValue, expression);
-      if (expression.operator === '=' || expression.operator === '==' || expression.operator === 'eq') return sourceValue === targetValue;
-      if (expression.operator === '!=' || expression.operator === 'neq') return sourceValue !== targetValue;
-      if (expression.operator === '<' || expression.operator === 'lt') return sourceValue < targetValue;
-      if (expression.operator === '<=' || expression.operator === 'lte') return sourceValue <= targetValue;
-      if (expression.operator === '>' || expression.operator === 'gt') return sourceValue > targetValue;
-      if (expression.operator === '>=' || expression.operator === 'gte') return sourceValue >= targetValue;
-      if (expression.operator === 'includes') return String(sourceValue).includes(targetValue);
-      if (expression.operator === 'startsWith') return String(sourceValue).startsWith(targetValue);
-      if (expression.operator === 'endsWith') return String(sourceValue).endsWith(targetValue);
-      throw new TypeError('Unknown operator in conditions!');
-    });
-  }
-  throw new TypeError('Condition must be a Object or Array!');
-}

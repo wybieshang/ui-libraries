@@ -4,10 +4,10 @@ import PullDown from '@better-scroll/pull-down';
 import PullUp from '@better-scroll/pull-up';
 
 import { createNamespace, _get, delay } from '../utils';
-import DataSourceMixin from '../mixins/DataSourceNew';
+import DataSourceMixin from '../mixins/DataSource';
 import { ParentMixin } from '../mixins/relation';
 
-import EmptyCol from '../emptycol';
+import DesignerSlotEmpty from '../designer-slot-empty';
 import Search from '../search';
 import ListViewItem from '../list-view-item';
 
@@ -63,7 +63,9 @@ export default createComponent({
     },
     data() {
       this.$nextTick(() => {
-        this.bscroll && this.bscroll.refresh();
+        if (this.bscroll) {
+          this.bscroll.refresh();
+        }
       });
     },
 
@@ -72,7 +74,7 @@ export default createComponent({
     },
     error(val) {
       this.fetchError = val;
-    }
+    },
   },
   computed: {
     pullUpTip() {
@@ -90,7 +92,7 @@ export default createComponent({
       }
 
       if (!this.pageable) {
-        return;
+        return null;
       }
 
       if (this.fetchLoading) {
@@ -123,7 +125,9 @@ export default createComponent({
     this.debounceSearch = _debounce(this.onSearch, 350);
   },
   beforeDestroy() {
-    this.bscroll && this.bscroll.destroy();
+    if (this.bscroll) {
+      this.bscroll.destroy();
+    }
   },
   methods: {
     initBscroll() {
@@ -251,7 +255,7 @@ export default createComponent({
         });
 
         if (!slot) {
-          slot = [_get(item, this.textField), <EmptyCol></EmptyCol>];
+          slot = [_get(item, this.textField), <DesignerSlotEmpty />];
         }
 
         return (
@@ -313,10 +317,10 @@ export default createComponent({
               onChange={this.onPaginationChange}
             >
               <div class={bem('prev')} slot="prev-text" vusion-slot-name="prev">
-                {this.slots('prev') || <EmptyCol></EmptyCol>}
+                {this.slots('prev') || <DesignerSlotEmpty />}
               </div>
               <div class={bem('next')} slot="next-text" vusion-slot-name="next">
-                {this.slots('next') || <EmptyCol></EmptyCol>}
+                {this.slots('next') || <DesignerSlotEmpty />}
               </div>
             </van-pagination>
           </div>

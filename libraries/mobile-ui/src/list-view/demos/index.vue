@@ -1,6 +1,6 @@
 <template>
   <demo-section>
-    <demo-block title="基础用法">
+    <demo-block title="基础用法-变量数据源">
       <van-list-view
         :data-source="data"
       >
@@ -14,7 +14,7 @@
       </van-list-view>
     </demo-block>
 
-    <demo-block title="基础用法--筛选">
+    <demo-block title="基础用法--筛选-变量数据源">
       <van-list-view
         :data-source="data"
         :filterable="true"
@@ -29,7 +29,7 @@
       </van-list-view>
     </demo-block>
 
-    <demo-block title="基础用法--下拉刷新">
+    <demo-block title="基础用法--下拉刷新-不分页">
       <van-list-view
         :data-source="fetchData"
         :pull-refresh="true"

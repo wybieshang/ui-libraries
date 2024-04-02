@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import lodash_get from 'lodash/get'
-import lodash_template from 'lodash/template'
+import lodash_get from 'lodash/get';
+import lodash_template from 'lodash/template';
 
 export { createNamespace } from './create';
 export { addUnit } from './format/unit';
@@ -104,4 +104,8 @@ export function _template(template: string, data: any): string {
   });
 
   return compiled(data);
+}
+
+export function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

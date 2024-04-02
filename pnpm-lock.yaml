@@ -134,6 +134,15 @@ importers:
       '@babel/runtime':
         specifier: 7.x
         version: 7.23.6
+      '@better-scroll/core':
+        specifier: ^2.5.1
+        version: 2.5.1
+      '@better-scroll/pull-down':
+        specifier: ^2.5.1
+        version: 2.5.1
+      '@better-scroll/pull-up':
+        specifier: ^2.5.1
+        version: 2.5.1
       '@popperjs/core':
         specifier: ^2.10.2
         version: 2.11.8
@@ -2050,6 +2059,28 @@ packages:
   /@bcoe/v8-coverage@0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
+
+  /@better-scroll/core@2.5.1:
+    resolution: {integrity: sha512-koKOuYA55dQ04FJRIVUpMGDr1hbCfWmfX0MGp1hKagkQSWSRpwblqACiwtggVauoj9aaJRJZ9hDsTM4weaavlg==}
+    dependencies:
+      '@better-scroll/shared-utils': 2.5.1
+    dev: false
+
+  /@better-scroll/pull-down@2.5.1:
+    resolution: {integrity: sha512-Y6XcGu2NlevPg3k9VBRRFvpmfoTA+rO96JGdog2qKHclIPNXnsVwsIHtZfAm9weE/f9UuC4BnB+VUFRlucfupg==}
+    dependencies:
+      '@better-scroll/core': 2.5.1
+    dev: false
+
+  /@better-scroll/pull-up@2.5.1:
+    resolution: {integrity: sha512-1hu3xSMxdB8T391KffpNZ7g93lMwZEHjfb1F1Y4KvIkciDt8nXqkGpqrZF+YwR+EJTgYcWqUO8kgmI6XXu7Pkg==}
+    dependencies:
+      '@better-scroll/core': 2.5.1
+    dev: false
+
+  /@better-scroll/shared-utils@2.5.1:
+    resolution: {integrity: sha512-AplkfSjXVYP9LZiD6JsKgmgQJ/mG4uuLmBuwLz8W5OsYc7AYTfN8kw6GqZ5OwCGoXkVhBGyd8NeC4xwYItp0aw==}
+    dev: false
 
   /@changesets/apply-release-plan@7.0.0:
     resolution: {integrity: sha512-vfi69JR416qC9hWmFGSxj7N6wA5J222XNBmezSVATPWDVPIF7gkd4d8CpbEbXmRWbVrkoli3oerGS6dcL/BGsQ==}
@@ -7367,7 +7398,7 @@ packages:
     dev: false
 
   /batch@0.6.1:
-    resolution: {integrity: sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==}
+    resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
     dev: false
 
   /bcrypt-pbkdf@1.0.2:
