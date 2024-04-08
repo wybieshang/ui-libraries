@@ -6,7 +6,6 @@ import MPubSub from 'cloud-ui.vusion/src/components/m-pub-sub.vue/index';
 
 export { MEmitter, MPubSub };
 export { utils };
-export { install } from '@vusion/utils';
 export * from './components';
 
 import '../src/action-sheet/index.less';

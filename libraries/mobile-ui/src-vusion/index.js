@@ -1,29 +1,40 @@
 import Vue from 'vue';
 import {
   installOptions,
-  install,
+  installComponents,
 } from '@vusion/utils';
 import * as Vant from './main';
 
-if (typeof window !== 'undefined') {
-  Vue.prototype.$env = Vue.prototype.$env || {};
-  Vue.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
-  Vue.prototype.$env = Vue.prototype.$env || {};
-  Vue.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
-  Vue.prototype.$at2 = function (obj, propertyPath) {
+let installed = false;
+function install(VueCtr) {
+  if (installed) return;
+
+  installed = true;
+  VueCtr.prototype.$env = VueCtr.prototype.$env || {};
+  VueCtr.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
+  VueCtr.prototype.$env = VueCtr.prototype.$env || {};
+  VueCtr.prototype.$env.VUE_APP_DESIGNER = String(process.env.VUE_APP_DESIGNER) === 'true';
+  VueCtr.prototype.$at2 = function (obj, propertyPath) {
     if (propertyPath === '' && !this.$env.VUE_APP_DESIGNER) return obj;
     return this.$at(obj, propertyPath);
   };
 
   // 梳理下来只有install被使用过
   window.CloudUI = {
-    install,
     MEmitter: Vant.MEmitter,
     MPubSub: Vant.MPubSub,
   };
 
-  installOptions(Vue);
-  Vue.mixin(Vant.MEmitter);
-  Vue.mixin(Vant.MPubSub);
-  Vue.use(Vant);
+  installOptions(VueCtr);
+  installComponents(VueCtr, Vant);
+
+  VueCtr.mixin(Vant.MEmitter);
+  VueCtr.mixin(Vant.MPubSub);
+}
+
+Vant.install = install;
+export default Vant;
+
+if (typeof window !== 'undefined') {
+  install(Vue);
 }

@@ -9,5 +9,3 @@ export * from './components';
 export * from './layouts';
 export * from './assist';
 export { directives, filters, utils };
-
-export { install } from '@vusion/utils';
