@@ -61,9 +61,9 @@ namespace nasl.ui {
     @Prop({
       group: '数据属性',
       title: '值',
-      description: '用于标识单元格的值'
+      description: '用于标识单元格的值',
     })
-    value: nasl.core.String;
+    value: any;
     @Prop({
       group: '主要属性',
       title: '箭头图标',
