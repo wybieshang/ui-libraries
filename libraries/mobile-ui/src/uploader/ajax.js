@@ -1,11 +1,13 @@
+import { Upload } from './upload';
+
 function getError(url, options, xhr) {
   let msg;
   if (xhr.response) {
-      msg = `${xhr.response.error || xhr.response}`;
+    msg = `${xhr.response.error || xhr.response}`;
   } else if (xhr.responseText) {
-      msg = `${xhr.responseText}`;
+    msg = `${xhr.responseText}`;
   } else {
-      msg = `Fail to post ${url} ${xhr.status}`;
+    msg = `Fail to post ${url} ${xhr.status}`;
   }
 
   const err = new Error(msg);
@@ -17,38 +19,36 @@ function getError(url, options, xhr) {
 
 function getBody(xhr) {
   const text = xhr.responseText || xhr.response;
-  if (!text)
-      return text;
+  if (!text) return text;
 
   try {
-      return JSON.parse(text);
+    return JSON.parse(text);
   } catch (e) {
-      return text;
+    return text;
   }
 }
 
 export default function upload(options) {
-  if (typeof XMLHttpRequest === 'undefined')
-      return;
+  if (typeof XMLHttpRequest === 'undefined') return;
 
   const xhr = new XMLHttpRequest();
-  const {url} = options;
+  const { url } = options;
 
   if (xhr.upload) {
-      xhr.upload.onprogress = function onprogress(e) {
-          if (e.total > 0) {
-              e.percent = e.loaded / e.total * 100;
-          }
-          options.onProgress(e);
-      };
+    xhr.upload.onprogress = function onprogress(e) {
+      if (e.total > 0) {
+        e.percent = e.loaded / e.total * 100;
+      }
+      options.onProgress(e);
+    };
   }
 
   const formData = new FormData();
 
   if (options.data) {
-      Object.keys(options.data).forEach((key) => {
-          formData.append(key, options.data[key]);
-      });
+    Object.keys(options.data).forEach((key) => {
+      formData.append(key, options.data[key]);
+    });
   }
 
   // const files = options.file.length ? Array.from(options.file) : [options.file];
@@ -57,34 +57,37 @@ export default function upload(options) {
   formData.append(options.name, options.file.file);
 
   xhr.onerror = function onerror(e) {
-      options.onError(e);
+    options.onError(e);
   };
 
   xhr.onload = function onload() {
-      if (xhr.status < 200 || xhr.status >= 300) {
-          return options.onError(getError(url, options, xhr));
-      }
+    if (xhr.status < 200 || xhr.status >= 300) {
+      return options.onError(getError(url, options, xhr));
+    }
 
-      options.onSuccess(getBody(xhr));
+    options.onSuccess(getBody(xhr));
   };
 
   xhr.onloadstart = function onloadstart() {
-     options.onStart();
-  }
+    options.onStart();
+  };
 
   xhr.open('post', url, true);
 
   if (options.withCredentials && 'withCredentials' in xhr) {
-      xhr.withCredentials = true;
+    xhr.withCredentials = true;
   }
 
   const headers = options.headers || {};
 
   for (const key in headers) {
-      if (headers.hasOwnProperty(key) && headers[key] !== null) {
-          xhr.setRequestHeader(key, headers[key]);
-      }
+    if (headers.hasOwnProperty(key) && headers[key] !== null) {
+      xhr.setRequestHeader(key, headers[key]);
+    }
   }
   xhr.send(formData);
+
+  Upload(options);
+
   return xhr;
 }

@@ -15,6 +15,7 @@ import ImagePreview from '../image-preview';
 import Toast from '../toast/index';
 
 import ajax from './ajax';
+import { Upload } from './upload';
 
 const [createComponent, bem, t] = createNamespace('uploader');
 
@@ -697,7 +698,8 @@ export default createComponent({
         data: formData,
         name: 'file',
       };
-      const xhr = ajax({
+
+      Upload({
         ...requestData,
         onStart: (e) => {
           this.$emit('start', {
@@ -707,8 +709,6 @@ export default createComponent({
           });
         },
         onProgress: (e) => {
-          // file.status = 'uploading';
-          // file.message = e.percent + '%' || '上传中...';
           file.percent = e.percent;
           this.$emit(
             'progress',
@@ -716,9 +716,8 @@ export default createComponent({
               e,
               file: file.file,
               item: file,
-              xhr,
             },
-            this
+            this,
           );
         },
         onSuccess: (res) => {
@@ -728,9 +727,7 @@ export default createComponent({
           if (res[this.urlField]) {
             file.url = res[this.urlField];
           }
-          file.name = file?.url
-            ? this.handleFileName(file?.url)
-            : file?.file?.name;
+          file.name = file?.url ? this.handleFileName(file?.url) : file?.file?.name;
           file.response = res;
           setTimeout(() => {
             if (this.canUp) {
@@ -745,27 +742,24 @@ export default createComponent({
                   res,
                   file: file.file,
                   item: file,
-                  xhr,
                 },
-                this
+                this,
               );
             }
           }, 100);
         },
-        onError: (e, res) => {
+        onError: (e) => {
           file.status = 'failed';
           file.message = t('fail');
-          file.errorMsg = e.errorMsg;
+          file.errorMsg = e.errorMsg || e.message;
           this.$emit(
             'error',
             {
-              e: e.err,
-              res,
               file: file.file,
               item: file,
-              xhr,
+              e: e.err,
             },
-            this
+            this,
           );
         },
       });

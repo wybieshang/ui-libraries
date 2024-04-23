@@ -365,12 +365,6 @@ namespace nasl.ui {
         status: nasl.core.String;
         uid: nasl.core.Integer;
         url: nasl.core.String;
-        response: {
-          filePath: nasl.core.String;
-          msg: nasl.core.String;
-          result: nasl.core.String;
-          success: nasl.core.Boolean;
-        };
       };
     }) => any ;
     @Slot({

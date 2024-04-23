@@ -95,7 +95,8 @@
 <script>
 import MField from '../m-field.vue';
 import i18n from './i18n';
-import ajax from './ajax';
+// import ajax from './ajax';
+import { Upload } from './upload';
 import cropper from './cropper';
 import i18nMixin from '../../mixins/i18n';
 
@@ -567,7 +568,7 @@ export default {
                 data: formData,
                 name: this.name,
             };
-            const xhr = ajax({
+          Upload({
                 ...requestData,
                 onProgress: (e) => {
                     const item = this.currentValue[index];
@@ -575,7 +576,7 @@ export default {
 
                     this.emitInputEvent();
                     this.$emit('progress', {
-                        e, file, item, xhr,
+                        e, file, item,
                     }, this);
                 },
                 onSuccess: (res) => {
@@ -617,10 +618,9 @@ export default {
                         res,
                         file,
                         item,
-                        xhr,
                     }, this);
                 },
-                onError: (e, res) => {
+                onError: (e) => {
                     console.log('error', e)
                     const item = this.currentValue[index];
                     item.status = 'error';
@@ -631,10 +631,8 @@ export default {
 
                     this.$emit('error', {
                         e,
-                        res,
                         file,
                         item,
-                        xhr,
                     }, this);
                 },
             });
